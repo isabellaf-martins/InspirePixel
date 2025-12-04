@@ -1,111 +1,94 @@
 <script setup>
-import { ref } from 'vue'
-import { useRouter } from 'vue-router'
+import { ref } from "vue";
+import { useRouter } from "vue-router";
 
-const email = ref('')
-const password = ref('')
-const router = useRouter()
+const email = ref("");
+const password = ref("");
+const errorMsg = ref("");
+
+const router = useRouter();
 
 function login() {
-    if (!email.value || !password.value) {
-        alert("Preencha todos os campos!")
-        return
-    }
+errorMsg.value = "";
 
-    // Simulação de login
-    alert("Login realizado com sucesso!")
-    router.push("/") // volta para home após login
+const users = JSON.parse(localStorage.getItem("users")) || [];
+
+const userFound = users.find(
+    (u) => u.email === email.value && u.password === password.value
+);
+
+if (!userFound) {
+    errorMsg.value = "Email ou senha incorretos.";
+    return;}
+
+localStorage.setItem("loggedUser", JSON.stringify(userFound));
+router.push("/");
 }
 </script>
 
 <template>
-    <div class="login-container">
-        <div class="login-box">
-            <h2>Entrar</h2>
-
-            <label>Email</label>
-            <input type="email" v-model="email" placeholder="Digite seu email" />
-
-            <label>Senha</label>
-            <input type="password" v-model="password" placeholder="Digite sua senha" />
-
-            <button @click="login">Entrar</button>
-
-            <p class="register">
-                Ainda não tem conta?
-                <a href="#">Criar conta</a>
-            </p>
+    <section class="login-container">
+        <h2>Login</h2>
+        <div class="input-group">
+            <label for="email">Email:</label>
+            <input type="email" id="email" v-model="email" />
         </div>
-    </div>
+        <div class="input-group">
+            <label for="password">Senha:</label>
+            <input type="password" id="password" v-model="password" />
+        </div>
+        <button @click="login">Entrar</button>
+        <p class="error-msg" v-if="errorMsg">{{ errorMsg }}</p>
+    </section>
 </template>
 
 <style scoped lang="scss">
 .login-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 80vh;
+  max-width: 400px;
+  margin: 2rem auto;
+  padding: 2rem;
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
-.login-box {
-    width: 350px;
-    background: white;
-    padding: 2.5rem;
-    border-radius: 14px;
-    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
+.input-group {
+  margin-bottom: 1rem;
 
-    h2 {
-        margin-bottom: 1rem;
-        text-align: center;
-    }
+  label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+  }
 
-    label {
-        font-size: 15px;
-        margin-top: 10px;
-    }
+  input {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    font-size: 1rem;
+  }
+}
 
-    input {
-        width: 100%;
-        padding: 10px 12px;
-        border-radius: 8px;
-        border: 1px solid #ddd;
-        outline: none;
-        transition: 0.2s ease;
+button {
+  width: 100%;
+  padding: 0.75rem;
+  background-color: #e1306c;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
 
-        &:focus {
-            border-color: #E1306C;
-            box-shadow: 0 0 0 2px rgba(225, 48, 108, 0.15);
-        }
-    }
+button:hover {
+  background-color: #c1275b;
+}
 
-    button {
-        margin-top: 10px;
-        padding: 12px;
-        background: #E1306C;
-        color: white;
-        font-weight: bold;
-        border: none;
-        border-radius: 8px;
-        cursor: pointer;
-        transition: 0.3s;
-
-        &:hover {
-            background: #b42455;
-        }
-    }
-
-    .register {
-        text-align: center;
-        margin-top: 10px;
-
-        a {
-            color: #E1306C;
-            font-weight: bold;
-            text-decoration: none;
-        }
-    }
+.error-msg {
+  margin-top: 1rem;
+  color: #e1306c;
+  font-weight: 600;
 }
 </style>

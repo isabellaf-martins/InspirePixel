@@ -18,7 +18,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin: 2rem 4rem;
+    margin: 2rem 2.5rem;
     padding: 2rem;
 
     div{
