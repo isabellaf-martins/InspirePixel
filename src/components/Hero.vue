@@ -39,4 +39,31 @@
         }
     }
 
+@media (max-width: 768px) {
+    .hero {
+        flex-direction: column-reverse;
+        text-align: center;
+        margin: 2rem 1rem;
+        padding: 1rem 0;
+
+        div {
+            max-width: 90%;
+
+            h2 {
+                font-size: 2rem;
+                margin-bottom: 1rem;
+                margin-top: 2rem;
+
+                span {
+                    font-size: 2.6rem;
+                }
+            }
+        }
+
+        img {
+            width: 80vw;
+            margin-top: 2rem;
+        }
+    }
+}
 </style>  

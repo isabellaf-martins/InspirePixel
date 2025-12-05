@@ -11,7 +11,7 @@
   </section>
 </template>
 
-<style scoped>
+<style scoped lang="scss">
 .favorites {
   padding: 40px 20px;
   width: 100%;
